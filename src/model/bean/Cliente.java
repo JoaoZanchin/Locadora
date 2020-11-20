@@ -1,5 +1,6 @@
 package model.bean;
 
+
 public class Cliente {
 	private int idCliente;
 	private String nome;
