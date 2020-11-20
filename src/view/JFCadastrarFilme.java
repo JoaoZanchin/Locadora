@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.bean.Filme;
+import model.dao.FilmeDAO;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -15,6 +19,8 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFCadastrarFilme extends JFrame {
 
@@ -73,6 +79,9 @@ public class JFCadastrarFilme extends JFrame {
 		scrollPane.setBounds(12, 264, 496, -81);
 		contentPane.add(scrollPane);
 		
+		JTextArea txtSinopse = new JTextArea();
+		scrollPane.setViewportView(txtSinopse);
+		
 		JLabel lblNewLabel_3 = new JLabel("Categoria");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_3.setBounds(12, 264, 104, 16);
@@ -88,9 +97,9 @@ public class JFCadastrarFilme extends JFrame {
 		lblNewLabel_4.setBounds(12, 333, 56, 16);
 		contentPane.add(lblNewLabel_4);
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(12, 362, 46, 51);
-		contentPane.add(spinner);
+		JSpinner spTempo = new JSpinner();
+		spTempo.setBounds(12, 362, 46, 51);
+		contentPane.add(spTempo);
 		
 		JLabel lblNewLabel_5 = new JLabel("Imagem");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -128,6 +137,27 @@ public class JFCadastrarFilme extends JFrame {
 		audio.add(rdbtnLegendado);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Filme f = new Filme();
+				FilmeDAO dao = new FilmeDAO();
+				f.setTitulo(txtTitulo.getText());
+				f.setSinopse(txtSinopse.getText());
+				f.setCategoria(txtCategoria.getText());
+				f.setTempo(Integer.parseInt(spTempo.getValue().toString()));
+				if(rdbtn2d.isSelected()) {
+					f.setImagem3d(false);
+				}else if (rdbtn3d.isSelected()) {
+					f.setImagem3d(true);
+				}
+				if(rdbtnDublado.isSelected()) {
+					f.setDublado(true);
+				}else if (rdbtnLegendado.isSelected()) {
+					f.setDublado(false);
+				}
+				dao.create(f);
+			}
+		});
 		btnCadastrar.setBounds(12, 465, 97, 25);
 		contentPane.add(btnCadastrar);
 		
@@ -139,11 +169,6 @@ public class JFCadastrarFilme extends JFrame {
 		btnCancelar.setBounds(307, 465, 97, 25);
 		contentPane.add(btnCancelar);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(22, 179, 547, 82);
-		contentPane.add(scrollPane_1);
 		
-		JTextArea txtSinopse = new JTextArea();
-		scrollPane_1.setViewportView(txtSinopse);
 	}
 }
