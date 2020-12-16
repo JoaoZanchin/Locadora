@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +20,8 @@ import model.dao.ClienteDAO;
 import model.dao.FilmeDAO;
 
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFListarClientes extends JFrame {
 
@@ -78,6 +82,18 @@ public class JFListarClientes extends JFrame {
 		contentPane.add(btnCadastrar);
 		
 		JButton btnAlterar = new JButton("Alterar Cliente");
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(jtCliente.getSelectedRow() != 1) {
+					JFAtualizarCliente ac = new JFAtualizarCliente((int)jtCliente.getValueAt(jtCliente.getSelectedRow(), 0));
+					ac.setVisible(true);	
+				}else {
+					JOptionPane.showInternalMessageDialog(null, "Selecione um cliente!");
+				}
+				
+				readJTable();
+			}
+		});
 		btnAlterar.setBounds(200, 380, 142, 25);
 		contentPane.add(btnAlterar);
 		
