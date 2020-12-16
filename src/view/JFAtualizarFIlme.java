@@ -1,33 +1,33 @@
 package view;
 
-
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.bean.Filme;
 import model.dao.FilmeDAO;
 
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JSpinner;
-import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class JFCadastrarFilme extends JFrame {
+public class JFAtualizarFIlme extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtTitulo;
 	private JTextField txtCategoria;
+	
+	private static int id;
 
 	/**
 	 * Launch the application.
@@ -36,7 +36,7 @@ public class JFCadastrarFilme extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JFCadastrarFilme frame = new JFCadastrarFilme();
+					JFAtualizarFIlme frame = new JFAtualizarFIlme(id);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,18 +48,31 @@ public class JFCadastrarFilme extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JFCadastrarFilme() {
+	public JFAtualizarFIlme(int id) {
+		setTitle("Alterar Filme");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 839, 587);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
 		
-		JLabel lblNewLabel = new JLabel("Cadastrar Filme");
+		JLabel lblNewLabel = new JLabel("Alterar Filme");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setBounds(10, 11, 150, 14);
 		contentPane.add(lblNewLabel);
+		
+		FilmeDAO fdao = new FilmeDAO();
+		Filme f = fdao.read(id);
+		
+		JLabel lblNewLabel_7 = new JLabel("ID do Filme");
+		lblNewLabel_7.setBounds(142, 31, 73, 20);
+		contentPane.add(lblNewLabel_7);
+		
+		JLabel lblId = new JLabel("New label");
+		lblId.setBounds(239, 33, 67, 16);
+		contentPane.add(lblId);
 		
 		JLabel lblNewLabel_1 = new JLabel("T\u00EDtulo");
 		lblNewLabel_1.setBounds(10, 53, 46, 14);
@@ -130,11 +143,30 @@ public class JFCadastrarFilme extends JFrame {
 		audio.add(rdbtnDublado);
 		audio.add(rdbtnLegendado);
 		
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.addActionListener(new ActionListener() {
+		lblId.setText(String.valueOf(f.getIdFilme()));
+		txtTitulo.setText(f.getTitulo());
+		txtSinopse.setText(f.getSinopse());
+		txtCategoria.setText(f.getCategoria());
+		spTempo.setValue(f.getTempo());
+		if(f.isImagem3d() == true) {
+			rdbtn3d.setSelected(true);
+		}else if(f.isImagem3d() == false) {
+			rdbtn2d.setSelected(true);
+		}
+		if(f.isDublado() == true) {
+			rdbtnDublado.setSelected(true);
+		}else if(f.isDublado() == false) {
+			rdbtnLegendado.setSelected(true);
+		}
+		
+		
+		JButton btnAlterar = new JButton("Alterar");
+		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Filme f = new Filme();
 				FilmeDAO dao = new FilmeDAO();
+				
+				f.setIdFilme(Integer.parseInt(lblId.getText()));
 				f.setTitulo(txtTitulo.getText());
 				f.setSinopse(txtSinopse.getText());
 				f.setCategoria(txtCategoria.getText());
@@ -149,11 +181,11 @@ public class JFCadastrarFilme extends JFrame {
 				}else if (rdbtnLegendado.isSelected()) {
 					f.setDublado(false);
 				}
-				dao.create(f);
+				dao.update(f);
 			}
 		});
-		btnCadastrar.setBounds(10, 400, 89, 23);
-		contentPane.add(btnCadastrar);
+		btnAlterar.setBounds(10, 400, 89, 23);
+		contentPane.add(btnAlterar);
 		
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(137, 400, 89, 23);
@@ -162,7 +194,6 @@ public class JFCadastrarFilme extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(269, 400, 89, 23);
 		contentPane.add(btnCancelar);
-		
 		
 		
 		
