@@ -84,7 +84,7 @@ public class FilmeDAO {
 				f.setTitulo(rs.getString("titulo"));
 				f.setTempo(rs.getInt("tempo"));
 				f.setSinopse(rs.getString("sinopse"));
-				f.setCategoria(rs.getString("categorai"));
+				f.setCategoria(rs.getString("categoria"));
 				f.setImagem3d(rs.getBoolean("imagem3d"));
 				f.setDublado(rs.getBoolean("dublado"));
 			}	
