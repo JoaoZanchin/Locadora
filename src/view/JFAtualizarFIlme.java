@@ -112,7 +112,7 @@ public class JFAtualizarFIlme extends JFrame {
 		contentPane.add(spTempo);
 		
 		JLabel lblNewLabel_5 = new JLabel("Imagem");
-		lblNewLabel_5.setBounds(101, 316, 46, 14);
+		lblNewLabel_5.setBounds(101, 316, 59, 14);
 		contentPane.add(lblNewLabel_5);
 		
 		JRadioButton rdbtn2d = new JRadioButton("2D");
