@@ -118,5 +118,25 @@ public class ClienteDAO {
 			}
 			
 		}
+		
+		public void delete(Cliente c) {
+			Connection con = ConnectionFactory.getConnection();
+			PreparedStatement stmt = null;
+			
+			try {
+				stmt = con.prepareStatement("DELETE FROM cliente WHERE idCliente=?");
+				stmt.setInt(1, c.getIdCliente());
+				stmt.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Cliente exlcuído com ssucesso!");
+				
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "Erro ao exlcuir: "+ e);
+			}
+			
+			finally {
+				ConnectionFactory.closeConnection(con, stmt);
+			}
+			
+		}
 	
 }
