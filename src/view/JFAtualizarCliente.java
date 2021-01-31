@@ -144,6 +144,7 @@ public class JFAtualizarCliente extends JFrame {
 				}
 				
 				dao.update(c);
+				dispose();
 			}
 		});
 	
@@ -151,10 +152,25 @@ public class JFAtualizarCliente extends JFrame {
 		contentPane.add(btnAlterar);
 		
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				txtNome.setText ( null );
+				txtEndereco.setText ( null );
+				spIdade.setValue ( 0 );
+				sexo.clearSelection();
+				
+			}
+		});
 		btnLimpar.setBounds(163, 326, 97, 25);
 		contentPane.add(btnLimpar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener ( new  ActionListener () {
+			public  void  actionPerformed ( ActionEvent  e ) {
+				dispose();
+			}
+		});
 		btnCancelar.setBounds(320, 326, 97, 25);
 		contentPane.add(btnCancelar);
 		
